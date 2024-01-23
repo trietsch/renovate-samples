@@ -1,0 +1,17 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+{
+  packageRules: [
+    {
+      matchManagers: [
+        "maven",
+        "gradle"
+      ],
+      matchPackageNames: [
+        "org.apache.kafka:kafka_2.13"
+      ],
+      // This is a negated regex pattern, so it will disallow any version that ends with "-ce" when considering updates
+      allowedVersions: "!/.*-ce$/"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+
+// Structuring PRs using labels is an excellent way to keep your PRs organized.
+// As Renovate PRs can quickly add up, it is highly recommended using labels to keep track of them.
+// If labels are not present, Renovate will create them for you (tested on GitHub)
+{
+  // A base label to add to all PRs
+  labels: [
+    "Renovate"
+  ],
+  packageRules: [
+    {
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major",
+        "minor",
+        "patch"
+      ],
+      matchDepTypes: [
+        "devDependencies"
+      ],
+      separateMajorMinor: false,
+      groupName: "npm dev dependencies",
+      groupSlug: "all-npm-dev-dependencies",
+      addLabels: [
+        "npm", // the package manager
+        "major-minor-patch", // the update types
+        "npm-dev-dependencies" // the dependency types
+      ]
+    },
+    {
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "minor",
+        "patch"
+      ],
+      matchDepTypes: [
+        "dependencies"
+      ],
+      groupName: "npm dependencies",
+      groupSlug: "non-major-npm",
+      automerge: true,
+      platformAutomerge: true,
+      addLabels: [
+        "minor-patch",
+        "npm",
+        "npm-dependencies"
+      ]
+    },
+    {
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major"
+      ],
+      matchDepTypes: [
+        "dependencies"
+      ],
+      groupName: "npm major dependencies",
+      groupSlug: "npm",
+      automerge: false,
+      addLabels: [
+        "major",
+        "npm",
+        "npm-dependencies"
+      ]
+    }
+  ]
+}

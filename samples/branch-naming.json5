@@ -1,0 +1,45 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+
+// Important remark: setting the branch names with this configuration alone is not enough.
+// CI must be instructed to use the branch names to alter the behavior of the pipeline accordingly.
+{
+  // Separate Renovate PRs from user PRs
+  branchPrefix: "renovate/",
+  // An additional branch prefix is used to instruct our CI to perform specific actions. Possible scenarios are to either
+  // only do a compile and test, or also a deployment of the application to a specific environment. The default
+  // additional branch prefix is set here, but it can be overridden in a specific scenario, in order to perform an
+  // alternative action
+  additionalBranchPrefix: "build-and-deploy/",
+  packageRules: [
+    {
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major",
+        "minor",
+        "patch"
+      ],
+      matchDepTypes: [
+        "devDependencies"
+      ],
+      separateMajorMinor: false,
+      groupName: "npm dev dependencies",
+      groupSlug: "all-npm-dev-dependencies",
+      automerge: true,
+      platformAutomerge: true,
+      // Override the default additional branch prefix, as npm dev dependencies can be merged by only running a
+      // build and test action in the CI
+      additionalBranchPrefix: "build-only/",
+      addLabels: [
+        "major-minor-patch",
+        "npm",
+        "npm-dev-dependencies"
+      ]
+    }
+  ]
+}

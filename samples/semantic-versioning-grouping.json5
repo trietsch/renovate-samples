@@ -1,0 +1,76 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+{
+  packageRules: [
+    {
+      // All npm dev dependencies, no matter whether the update is major, minor or patch,
+      // should be grouped into a single PR
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major",
+        "minor",
+        "patch"
+      ],
+      matchDepTypes: [
+        "devDependencies"
+      ],
+      // Ensure to always use the latest release, instead of creating a separate PR for major / non-major updates
+      separateMajorMinor: false,
+      // All updates with the same group name are placed in the same PR
+      groupName: "npm dev dependencies",
+      // The group slug is normally computed from the group name and is used in the branch name
+      // However, if you wish to determine the branch name yourself, you can set the group slug manually
+      groupSlug: "all-npm-dev-dependencies",
+      // Allow Renovate Bot to automatically merge PRs, consulting the branch status on the respective platform
+      // if the branch status is "green", then and only then, the PR is merged
+      automerge: true,
+      // Use the platform's "merge after CI pipeline completes" feature
+      // IMPORTANT: ensure that you enable the CI pipeline to succeed before allowing a PR to be merged, otherwise
+      //            you may end up with broken builds in your main branch
+      platformAutomerge: true,
+    },
+    {
+      // All regular npm dependencies of type minor and patch are grouped together in a non-major PR
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "minor",
+        "patch"
+      ],
+      matchDepTypes: [
+        "dependencies"
+      ],
+      groupName: "npm dependencies",
+      groupSlug: "non-major-npm",
+      automerge: true,
+      platformAutomerge: true
+    },
+    {
+      // All regular npm dependencies of type major are grouped together in a major PR
+      matchManagers: [
+        "npm"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major"
+      ],
+      matchDepTypes: [
+        "dependencies"
+      ],
+      groupName: "npm major dependencies",
+      groupSlug: "npm",
+      automerge: false
+    }
+  ]
+}

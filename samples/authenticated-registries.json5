@@ -1,0 +1,53 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+{
+  hostRules: [
+    {
+      // Maven repository password configuration by matching host
+      matchHost: "https://europe-west4-maven.pkg.dev/my-google-cloud-project/maven/",
+      username: "_json_key_base64",
+      // In order to pass secrets to Renovate, set the environment variable 'RENOVATE_SECRETS' to a JSON string
+      // containing the secrets. Example:
+      // export RENOVATE_SECRETS="{\"ARTIFACT_REGISTRY_MAVEN_PASSWORD\":\"some-password\",\"ARTIFACT_REGISTRY_DOCKER_PASSWORD\":\"other-password\"}"
+      password: "{{ secrets.ARTIFACT_REGISTRY_MAVEN_PASSWORD }}"
+    },
+    {
+      // Docker repository password configuration by matching host
+      matchHost: "europe-west4-docker.pkg.dev",
+      username: "_json_key_base64",
+      password: "{{ secrets.ARTIFACT_REGISTRY_DOCKER_PASSWORD }}"
+    }
+  ],
+  // For npm, the npmrc is used instead of hostRules, as that is the easiest method.
+  // If you need to set the secret values in your CI, be sure to set the same RENOVATE_SECRETS environment variable
+  // Setting the npmrc is enough for Renovate Bot to look at the private registry for scoped packages, no need to set a specific package rule, in contrast to setting a host rule.
+  npmrc: "@package-scope:registry=https://europe-west4-npm.pkg.dev/my-google-cloud-project/npm/\n//europe-west4-npm.pkg.dev/my-google-cloud-project/npm/:_password=\"{{ secrets.ARTIFACT_REGISTRY_NPM_PASSWORD }}\"\n//europe-west4-npm.pkg.dev/my-google-cloud-project/npm/:username=_json_key_base64\n//europe-west4-npm.pkg.dev/my-google-cloud-project/npm/:email=not.valid@email.com\n//europe-west4-npm.pkg.dev/my-google-cloud-project/npm/:always-auth=true",
+  packageRules: [
+    {
+      matchManagers: [
+        "dockerfile"
+      ],
+      registryUrls: [
+        "europe-west4-docker.pkg.dev",
+      ],
+      matchPackagePatterns: [
+        // You could also put a prefix here, to only query your private Docker registry for images with a certain prefix
+        "*"
+      ]
+    },
+    {
+      // Maven artifact registry configuration
+      matchManagers: [
+        // Make sure to put both Maven and Gradle here, as the Maven artifact registry is used for both
+        "maven",
+        "gradle"
+      ],
+      matchPackagePrefixes: [
+        "dev.trietsch"
+      ],
+      registryUrls: [
+        "https://europe-west4-maven.pkg.dev/my-google-cloud-project/maven"
+      ]
+    }
+  ]
+}

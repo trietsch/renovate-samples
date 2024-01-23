@@ -1,0 +1,19 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+{
+  packageRules: [
+    {
+      matchManagers: [
+        "gradle",
+        "maven"
+      ],
+      matchPackageNames: [
+        "commons-codec:commons-codec"
+      ],
+      // If the current version is 20041127.091804
+      matchCurrentVersion: "20041127.091804",
+      // then disable updates for this package
+      enabled: false
+    }
+  ]
+}
