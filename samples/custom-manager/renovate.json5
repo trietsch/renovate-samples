@@ -1,0 +1,66 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+
+// Using a custom manager of type regex is very (very!) customizable, and there are many ways to achieve the same
+// end result. Here, I've provided a simple example that only uses a named capturing group for the current value.
+// Many of the `...Template` properties provided in the customer manager section, can also be provided in the
+// `matchStrings` section, with named capturing groups. Please consult the official docs on additional guidance:
+// https://docs.renovatebot.com/configuration-options/#custommanagers
+{
+  "customManagers": [
+    {
+      // To be able to extract versions from the Makefile, we need a custom manager of type regex
+      "customType": "regex",
+      // The file pattern to match, to which these regex rules will be applied
+      "fileMatch": [
+        "Makefile$"
+      ],
+      // The regex pattern to match, with a named capturing group for the current version
+      // If the named capturing group is missing, the regex manager will not be applied
+      "matchStrings": [
+        "kafka_version\\s?:=\\s?(?<currentValue>\\d+\\.\\d+\\.\\d+)\\n"
+      ],
+      // The data source to consult for other versions of this dependency
+      datasourceTemplate: "maven",
+      // The name of the dependency (i.e. the package name)
+      // make sure to follow the notation you'd normally use for the datasource
+      depNameTemplate: "org.apache.kafka:kafka_2.13",
+      // The regex pattern to use to extract the version from a datasource version listing
+      // useful when the raw version as provided by the datasource does not match the format that you require
+      // Important: this is obsolete here, as it effectively is a no-op here.
+      extractVersionTemplate: "^(?<version>\\d+\\.\\d+\\.\\d+)",
+    }
+  ],
+  "packageRules": [
+    {
+      // Non-Major Kafka updates
+      matchManagers: [
+        // Match the custom manager of type regex
+        "regex"
+      ],
+      matchPackageNames: [
+        "org.apache.kafka:kafka_2.13"
+      ],
+      matchUpdateTypes: [
+        "minor",
+        "patch"
+      ],
+      groupName: "kafka non-major dependencies",
+      groupSlug: "non-major-kafka"
+    },
+    {
+      // Major Kafka updates
+      matchManagers: [
+        "regex"
+      ],
+      matchPackageNames: [
+        "org.apache.kafka:kafka_2.13"
+      ],
+      matchUpdateTypes: [
+        "major",
+      ],
+      groupName: "kafka major dependencies",
+      groupSlug: "major-kafka"
+    }
+  ]
+}
