@@ -1,5 +1,74 @@
 // IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
 // For a complete configuration, see https://docs.renovatebot.com/configuration-options/
 {
-  // TODO finish this example
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  platform: "github",
+  baseBranches: [
+    "main"
+  ],
+  packageRules: [
+    {
+      matchManagers: [
+        "gradle"
+      ],
+      matchPaths: [
+        "**/settings.gradle",
+        "**/settings.gradle.kts"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major",
+        "minor",
+        "patch"
+      ],
+      groupName: "gradle build dependencies",
+      groupSlug: "all-gradle-build",
+      automerge: true,
+      platformAutomerge: true,
+      addLabels: [
+        "major-minor-patch",
+        "gradle",
+        "gradle-build"
+      ]
+    },
+    {
+      matchManagers: [
+        "gradle"
+      ],
+      matchFileNames: [
+        "**/build.gradle",
+        "**/build.gradle.kts",
+        "gradle.properties"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "minor",
+        "patch"
+      ],
+      groupName: "gradle app dependencies",
+      groupSlug: "non-major-gradle-app"
+    },
+    {
+      matchManagers: [
+        "gradle"
+      ],
+      matchPaths: [
+        "**/build.gradle",
+        "**/build.gradle.kts",
+        "**/gradle.properties"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major"
+      ],
+      groupName: "gradle app major dependencies",
+      groupSlug: "gradle-app",
+    }
+  ]
 }

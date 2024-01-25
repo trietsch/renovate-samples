@@ -1,0 +1,38 @@
+// IMPORTANT: This sample is incomplete and is meant as a snippet. Some properties in this configuration are missing and required by Renovate Bot
+// For a complete configuration, see https://docs.renovatebot.com/configuration-options/
+{
+  // This example of a shared configuration is a bit silly, as it points to a shared configuration file that lives in the
+  // same repository as this configuration file. In practice, you would put the shared configuration file in a separate
+  // repository and reference it using the `extends` property.
+  "extends": [
+    // For a full reference on how to construct these paths, see https://docs.renovatebot.com/config-presets/
+    "github>trietsch/renovate-samples//samples/shared-configuration/renovate-base-config.json5"
+  ],
+  "packageRules":[
+    {
+      // If you'd want to override the package rule from the base configuration that matches the settings.gradle.kts file
+      // you need to ensure that the same match* properties are used.
+      matchManagers: [
+        "gradle"
+      ],
+      matchPaths: [
+        "**/settings.gradle",
+        "**/settings.gradle.kts"
+      ],
+      matchPackagePatterns: [
+        "*"
+      ],
+      matchUpdateTypes: [
+        "major",
+        "minor",
+        "patch"
+      ],
+      // Once the match is identical, we can now modify other properties of this rule
+      // For example, if for some reason you don't want to have the plugin updates in a separate group, which was
+      // defined in the base configuration, you can override it here and set it to the same groupName as the non-major
+      // Gradle app dependencies.
+      groupName: "gradle app dependencies",
+      groupSlug: "non-major-gradle-app"
+    }
+  ]
+}
